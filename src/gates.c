@@ -17,7 +17,15 @@ float train_and[][3] = {
     {1, 1, 1},
 };
 
-#define train_count_or (sizeof(train_or)/sizeof(train_or[0]))
+float train_nand[][3] = {
+    {0, 0, 1},
+    {0, 1, 1},
+    {1, 0, 1},
+    {1, 1, 0},
+};
+float (*train)[3] = train_nand;
+
+size_t train_count =  4;
 
 
 float sigmoid_f(float x){
@@ -26,14 +34,14 @@ float sigmoid_f(float x){
 
 float cost_gates(float w1,float w2,float b){
     float result = 0.0f;
-    for (size_t i = 0; i < train_count_or; i++){
-        float x1 = train_and[i][0];
-        float x2 = train_and[i][1];
+    for (size_t i = 0; i < train_count; i++){
+        float x1 = train[i][0];
+        float x2 = train[i][1];
         float y = sigmoid_f(x1*w1 + x2*w2 + b);
-        float d = y - train_and[i][2];
+        float d = y - train[i][2];
         result += d*d;             
     }
-    result /= train_count_or;
+    result /= train_count;
     return result;
 }
 
@@ -56,5 +64,4 @@ void gradient_descent_gates(float w1, float w2, float b){
             printf("%zu | %zu = %f\n",i,j,sigmoid_f(i*w1 + j*w2 + b)); 
         }
     }
-    
 }

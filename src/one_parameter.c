@@ -1,6 +1,5 @@
 #include "../include/one_parameter.h"
 
-
 float train_one_parameter[][2] = {
     {0, 0},
     {1, 3},
